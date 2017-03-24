@@ -36,7 +36,6 @@
         for (float i = 0.0; i <= colors.count; i++) {
             [locations addObject:@(i / colors.count)];
         }
-        //    NSLog(@"locations: %@", locations);
         self.gradientLayer.locations = locations;
         
         
@@ -45,12 +44,8 @@
         
         CGFloat lineWidth = 10;
         
-        // 曲线
-        
+        // 绘制曲线
         /*
-         * 该方法会创建出一个开放路径, 创建出来的圆弧是圆的一部分. 在默认的坐标系统中, 开始角度 和 结束角度 都是基于单位圆的(看下面这张图). 调用这个方法之后, currentPoint 将会设置为圆弧的结束点.
-         * 举例来说: 指定其实角度为0, 指定结束角度为π, 设置 clockwise 属性为 YES, 将会绘制出圆的下半部分.
-         * 然而当我们不修改起始角度 和 结束角度, 我们仅仅将 clockwise 角度设置为 NO, 则会绘制出来一个圆的上半部分.
          * @param center:   圆心
          * @param radius: 半径
          * @param startAngle:   起始角度

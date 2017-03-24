@@ -14,7 +14,7 @@
 
 @interface ViewController ()
 
-@property (nonatomic, strong, readwrite) ZFGradientCircle *grandientView;
+@property (nonatomic, strong, readwrite) ZFGradientCircle *grandientCircle;
 @property (nonatomic, strong, readwrite) CAShapeLayer *shapeLayer;
 
 // 渐变层
@@ -32,9 +32,9 @@
     
     
     // 渐变圆弧
-    self.grandientView = [[ZFGradientCircle alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-    self.grandientView.center = self.view.center;
-    [self.view addSubview: self.grandientView];
+    self.grandientCircle = [[ZFGradientCircle alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    self.grandientCircle.center = self.view.center;
+    [self.view addSubview: self.grandientCircle];
     
     NSArray *colors = @[(id)[[UIColor colorWithHex:0xa3faff] CGColor],
                         (id)[[UIColor colorWithHex:0x009cff] CGColor],
@@ -43,12 +43,12 @@
                         ];
     
     // 渐变label
-    ZFGradientLabel *gradientLabel = [[ZFGradientLabel alloc] initWithFrame:CGRectMake(self.grandientView.frame.size.width * 0.5, self.grandientView.frame.size.height * 0.5, 100, 100)];
+    ZFGradientLabel *gradientLabel = [[ZFGradientLabel alloc] initWithFrame:CGRectMake(self.grandientCircle.frame.size.width * 0.5, self.grandientCircle.frame.size.height * 0.5, 100, 100)];
     
     gradientLabel.text = @"$0.00";
     gradientLabel.font = [UIFont fontWithName:@"Cochin" size:32];
     [gradientLabel sizeToFit];
-    gradientLabel.center = self.grandientView.center;
+    gradientLabel.center = self.grandientCircle.center;
     
     gradientLabel.gradientColors = colors;
     gradientLabel.gradientDirection = GradientDirectionOppositeAngle;
@@ -58,7 +58,7 @@
 }
 
 - (IBAction)startAnimation:(id)sender {
-    [self.grandientView drawAnimation];
+    [self.grandientCircle drawAnimation];
     [self.gradientLabel startCountingAnimationWithStartValue:0.78 endValue:102390.13 duration:3];
 }
 
