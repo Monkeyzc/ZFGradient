@@ -28,10 +28,12 @@
     CGSize textSize = [self.text sizeWithAttributes:@{NSFontAttributeName: self.font}];
     CGRect textRect = CGRectMake(0, 0, textSize.width, textSize.height);
     
+    // 将文字画到conttext
     CGContextRef contextRef = UIGraphicsGetCurrentContext();
     [self.textColor set];
     [self.text drawWithRect:rect options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.font} context: NULL];
     
+    // 翻转坐标, 上下颠倒
     CGContextTranslateCTM(contextRef, 0.0f, rect.size.height - (rect.size.height - textSize.height) * 0.5);
     CGContextScaleCTM(contextRef, 1.0f, -1.0f);
     
@@ -39,18 +41,16 @@
     alphaMask = CGBitmapContextCreateImage(contextRef);
     CGContextClearRect(contextRef, rect);
     
-    
-    NSMutableArray *locations = [NSMutableArray array];
-    for (float i = 0.0; i <= self.gradientColors.count; i++) {
-        [locations addObject:@(i / self.gradientColors.count)];
-    }
+
+    CGFloat locations[] = {0.0, 0.5, 0.7, 1.0};
     
     CGContextClipToMask(contextRef, textRect, alphaMask);
     
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     
     // 设置渐变色数组 和 locations = NULL
-    CGGradientRef gradientRef = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)self.gradientColors, NULL);
+    
+    CGGradientRef gradientRef = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)self.gradientColors, locations);
     
     CGPoint startPoint;
     CGPoint endPoint;
@@ -68,6 +68,8 @@
             endPoint = CGPointMake(textRect.origin.x, textRect.origin.y + textRect.size.height);
             break;
         }
+            
+            // TODO: need fix
         case GradientDirectionOppositeAngle: {
             // (0, 0) -> (1, 1);
             startPoint = CGPointMake(textRect.origin.x, textRect.origin.y);
